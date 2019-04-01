@@ -49,14 +49,14 @@ app.get('/', (req, res) => {
 app.post('/signin', (req, res) => {
 
     // Load hash from your password DB.
-  // bcrypt.compare("apple", "$2a$10$9eBsCQ7w8nG0XWFamAvZb.HqJMIDaJwxorjL7XTm7XmcREeiWNLKC", function(err, res) {
-  //   // res == true
-  //   console.log('first' ,res);
-  // });
-  // bcrypt.compare("veggies", "$2a$10$9eBsCQ7w8nG0XWFamAvZb.HqJMIDaJwxorjL7XTm7XmcREeiWNLKC", function(err, res) {
-  //   // res = false
-  //   console.log("second", res);
-  // });
+  bcrypt.compare("apple", "$2a$10$9eBsCQ7w8nG0XWFamAvZb.HqJMIDaJwxorjL7XTm7XmcREeiWNLKC", function(err, res) {
+    // res == true
+    console.log('first' ,res);
+  });
+  bcrypt.compare("veggies", "$2a$10$9eBsCQ7w8nG0XWFamAvZb.HqJMIDaJwxorjL7XTm7XmcREeiWNLKC", function(err, res) {
+    // res = false
+    console.log("second", res);
+  });
 
   if (req.body.email === db.users[0].email &&
       req.body.password === db.users[0].password) {
