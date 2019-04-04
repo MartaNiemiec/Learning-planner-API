@@ -13,11 +13,12 @@ app.use(cors());
 
 const db = {
   users: [
+    
     {
       id: '123',
       name: 'john',
       email: 'john@gmail.com',
-      // password: 'cookies',
+      password: 'cookies',
       // tasks: [{task: "costam"}],
       allTasks: [{dailyTasks: [], weeklyTasks: [], monthlyTasks: []}],
       registered: new Date()
@@ -26,7 +27,7 @@ const db = {
       id: '124',
       name: 'sally',
       email: 'sally@gmail.com',
-      // password: 'bananas',
+      password: 'bananas',
       // tasks: [{task: "costam"}],
       allTasks: [{dailyTasks: [], weeklyTasks: [], monthlyTasks: []}],
       registered: new Date()
@@ -60,7 +61,8 @@ app.post('/signin', (req, res) => {
 
   if (req.body.email === db.users[0].email &&
       req.body.password === db.users[0].password) {
-    res.json('success')
+    // res.json('success')
+    res.json(db.users[0])
   } else {
     console.log(req.body.email);
     console.log(req.body.password);
@@ -104,8 +106,8 @@ app.get('/profile/:id', (req, res) => {
 })
 
 
-app.put('/alltasks/:id', (req, res) => {
-  const { id } = req.params;  
+app.put('/alltasks', (req, res) => {
+  const { id } = req.body;  
   const { dailyTasks, weeklyTasks, monthlyTasks } = req.body;
 
   let found = false;
@@ -115,9 +117,9 @@ app.put('/alltasks/:id', (req, res) => {
       found = true;
       user.allTasks = [];
       user.allTasks.push({
-        dailyTasks: [dailyTasks], 
-        weeklyTasks: [weeklyTasks], 
-        monthlyTasks: [monthlyTasks]});
+        dailyTasks: dailyTasks, 
+        weeklyTasks: weeklyTasks, 
+        monthlyTasks: monthlyTasks});
       return res.json(user);
     } 
     
