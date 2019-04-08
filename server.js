@@ -20,7 +20,11 @@ const db = {
       email: 'john@gmail.com',
       password: 'cookies',
       // tasks: [{task: "costam"}],
-      allTasks: [{dailyTasks: [], weeklyTasks: [], monthlyTasks: []}],
+      allTasks: {
+        dailyTasks: [], 
+        weeklyTasks: [], 
+        monthlyTasks: []
+      },
       registered: new Date()
     },
     {
@@ -29,7 +33,11 @@ const db = {
       email: 'sally@gmail.com',
       password: 'bananas',
       // tasks: [{task: "costam"}],
-      allTasks: [{dailyTasks: [], weeklyTasks: [], monthlyTasks: []}],
+      allTasks: {
+        dailyTasks: [], 
+        weeklyTasks: [], 
+        monthlyTasks: []
+      },
       registered: new Date()
     }
   ],
@@ -52,11 +60,11 @@ app.post('/signin', (req, res) => {
     // Load hash from your password DB.
   bcrypt.compare("apple", "$2a$10$9eBsCQ7w8nG0XWFamAvZb.HqJMIDaJwxorjL7XTm7XmcREeiWNLKC", function(err, res) {
     // res == true
-    console.log('first' ,res);
+    // console.log('first' ,res);
   });
   bcrypt.compare("veggies", "$2a$10$9eBsCQ7w8nG0XWFamAvZb.HqJMIDaJwxorjL7XTm7XmcREeiWNLKC", function(err, res) {
     // res = false
-    console.log("second", res);
+    // console.log("second", res);
   });
 
   if (req.body.email === db.users[0].email &&
@@ -64,8 +72,8 @@ app.post('/signin', (req, res) => {
     // res.json('success')
     res.json(db.users[0])
   } else {
-    console.log(req.body.email);
-    console.log(req.body.password);
+    // console.log(req.body.email);
+    // console.log(req.body.password);
     res.status(400).json('error logging in')
   }
 })
@@ -82,7 +90,7 @@ app.post('/register', (req, res) => {
     id: '125',
     name: name,
     email: email,
-    allTasks: [],
+    allTasks: {},
     registered: new Date()
   })
   // response with the new user = the last one in the database array
@@ -115,18 +123,16 @@ app.put('/alltasks', (req, res) => {
   db.users.forEach(user => {
     if (user.id === id) {
       found = true;
-      user.allTasks = [];
-      user.allTasks.push({
-        dailyTasks: dailyTasks, 
-        weeklyTasks: weeklyTasks, 
-        monthlyTasks: monthlyTasks});
+      user.allTasks = {};
+      user.allTasks.dailyTasks = dailyTasks;
+      user.allTasks.weeklyTasks = weeklyTasks;
+      user.allTasks.monthlyTasks = monthlyTasks;
       return res.json(user);
     } 
-    
   })
-      if (!found) {
-        res.status(400).json('not found user with tasks');
-      }
+  if (!found) {
+    res.status(400).json('not found user with tasks');
+  }
 });
 
 
