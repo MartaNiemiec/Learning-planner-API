@@ -25,6 +25,7 @@ const db = {
         weeklyTasks: [], 
         monthlyTasks: []
       },
+      skills: [],
       registered: new Date()
     },
     {
@@ -38,6 +39,7 @@ const db = {
         weeklyTasks: [], 
         monthlyTasks: []
       },
+      skills: [],
       registered: new Date()
     }
   ],
@@ -116,7 +118,7 @@ app.get('/profile/:id', (req, res) => {
 
 app.put('/alltasks', (req, res) => {
   const { id } = req.body;  
-  const { dailyTasks, weeklyTasks, monthlyTasks } = req.body;
+  const { dailyTasks, weeklyTasks, monthlyTasks, skills } = req.body;
 
   let found = false;
 
@@ -127,6 +129,7 @@ app.put('/alltasks', (req, res) => {
       user.allTasks.dailyTasks = dailyTasks;
       user.allTasks.weeklyTasks = weeklyTasks;
       user.allTasks.monthlyTasks = monthlyTasks;
+      user.skills = skills;
       return res.json(user);
     } 
   })
