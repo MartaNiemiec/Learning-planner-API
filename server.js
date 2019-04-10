@@ -15,7 +15,7 @@ const database = knex({
 });
 
 database.select('*').from('users').then(data => {
-  console.log(data);
+  // console.log(data);
 });
 
 const app = express();
@@ -118,17 +118,18 @@ app.post('/register', (req, res) => {
 
 app.get('/profile/:id', (req, res) => {
   const { id } = req.params;  // params from the link
-  let found = false;
 
-  db.users.forEach(user => {
-    if (user.id === id) {
-      found = true;
-      return res.json(user) 
-    } 
-    if (!found) {
-      res.status(400).json('not found');
+  database.select('*').from('users').where({
+    id: id
+  }).then(user => {
+    //if user exist so it isn't an ampty array
+    if (user.length) {
+      res.json(user[0]);
+    } else {
+      res.status(400).json('Not found');
     }
   })
+  .catch(err => res.status(400).json('error getting user'))
 })
 
 
