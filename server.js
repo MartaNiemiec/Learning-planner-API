@@ -2,7 +2,21 @@ const express = require('express');
 const bodyParser = require('body-parser');  // when we're sending data from the front-end and it's using JSON, we need to parse it because Express doesn't know what we just sent over;in order to be able to use 'req.body()'  we need to use body-parser
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
+const knex = require('knex'); // additionally 'npm install pg'
 
+const database = knex({
+  client: 'pg', // pg = postgress
+  connection: {
+    host : '127.0.0.1',
+    user : 'marta',
+    password : 'marta',
+    database : 'planner'
+  }
+});
+
+database.select('*').from('users').then(data => {
+  console.log(data);
+});
 
 const app = express();
 app.use(bodyParser.json());
@@ -88,15 +102,17 @@ app.post('/register', (req, res) => {
     console.log(hash);
   });
   // push the user into database
-  db.users.push({
-    id: '125',
+  database('users')
+  .returning('*')
+  .insert({
     name: name,
     email: email,
     allTasks: {},
+    skills: [],
     registered: new Date()
-  })
-  // response with the new user = the last one in the database array
-  res.json(db.users[db.users.length - 1])
+  }).then(user => {
+    res.json(user[0])
+  }).catch(err => res.status(400).json('unable to register'))
 })
 
 
