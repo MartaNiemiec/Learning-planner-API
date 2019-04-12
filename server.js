@@ -67,7 +67,6 @@ app.post('/register', (req, res) => {
       .insert({
         name: name,
         email: loginEmail[0],
-        allTasks: {},
         dailytasks: [],
         weeklytasks: [],
         monthlytasks: [],
@@ -109,15 +108,13 @@ app.put('/alltasks', (req, res) => {
 
   database('users').where('id', '=', id)
     .update({
-      allTasks: {},
       dailytasks: dailytasks,
       weeklytasks: weeklytasks,
       monthlytasks: monthlytasks,
       skills: skills
     })
-    .returning(['allTasks','dailytasks', 'weeklytasks', 'monthlytasks', 'skills'])
+    .returning(['id','dailytasks', 'weeklytasks', 'monthlytasks', 'skills'])
     .then(data => {
-      console.log(data);
       res.json(data[0]);
     })
     .catch(err => res.status(400).json('unable to get data'))
