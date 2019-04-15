@@ -1,6 +1,9 @@
 const handleRegister = (req, res, database, bcrypt) => {
   //get information from the req.body
   const { email, name, password } = req.body;
+  if (!email || !name || !password) {
+    return res.status(400).json('incorrect form submissin');
+  }
   const hash = bcrypt.hashSync(password);
   // push the user into database
   database.transaction(trx => { //transaction to do more than one thing at once; then "trx" is instead of "database" to do all operations
