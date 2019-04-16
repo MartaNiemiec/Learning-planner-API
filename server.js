@@ -12,10 +12,12 @@ const alltasks = require('./controllers/alltasks');
 const database = knex({
   client: 'pg', // pg = postgress
   connection: {
-    host : '127.0.0.1',
-    user : 'marta',
-    password : 'marta',
-    database : 'planner'
+    // host : 'postgresql-amorphous-74083',
+    // user : 'marta',
+    // password : 'marta',
+    // database : 'planner'
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
   }
 });
 
