@@ -39,8 +39,8 @@ app.get('/profile/:id', (req, res) => profile.handleProfileGet(req, res, databas
 
 app.put('/alltasks', (req, res) => alltasks.handleAllTasks(req, res, database));
 
-app.listen(3000, () => {
-  console.log('app is running on port 3000');
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`app is running on port ${process.env.PORT}`);
 });
 
 /*
